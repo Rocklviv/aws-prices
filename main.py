@@ -2,6 +2,7 @@ __name__ = "AWSPrices"
 from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_restful import Api
+from libs.gzip import gzipped
 
 
 application = Flask(__name__)
@@ -14,6 +15,7 @@ aws_prices = AWSPrices()
 
 
 @application.route('/prices', methods=['GET'])
+@gzipped
 def get_prices():
     try:
         return jsonify(aws_prices.get_prices())
