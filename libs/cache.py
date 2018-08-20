@@ -76,11 +76,6 @@ class CacheController(object):
         """
         with self.lock:
             if time() > item.timestamp + item.ttl:
-                # logging.debug(
-                #     'Object %s has expired and will be removed from cache [hits %d]',
-                #     item.name,
-                #     item.hits
-                # )
                 self._cache.pop(item.name)
                 return True
             return False
@@ -102,10 +97,6 @@ class CacheController(object):
         with self.lock:
             if self.maxsize > 0 and len(self._cache) == self.maxsize:
                 popped = self._cache.popitem(last=False)
-            #     logging.debug('Cache maxsize reached, removing %s [hits %d]', popped.name,
-            #                   popped.hits)
-            #
-            # logging.debug('Caching object %s [ttl: %d seconds]', obj.name, obj.ttl)
             self._cache[obj.name] = obj
 
     def get(self, key):
@@ -128,12 +119,6 @@ class CacheController(object):
                 return None
 
             item.hits += 1
-            # logging.debug(
-            #     'Returning object %s from cache [hits %d]',
-            #     item.name,
-            #     item.hits
-            # )
-
             return item.obj
 
     def housekeeper(self):
@@ -143,17 +128,8 @@ class CacheController(object):
         """
         with self.lock:
             expired = 0
-            # logging.info(
-            #     'Starting cache housekeeper [%d items in cache]',
-            #     len(self._cache)
-            # )
             for name, item in self._cache.items():
                 if self._has_expired(item):
                     expired += 1
-            # logging.info(
-            #     'Cache housekeeper completed [%d removed from cache]',
-            #     expired
-            # )
             if self.housekeeping > 0:
                 threading.Timer(self.housekeeping, self.housekeeper).start()
-

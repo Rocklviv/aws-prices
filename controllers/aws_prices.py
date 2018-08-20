@@ -1,7 +1,6 @@
 import os
 import json
 import requests
-import datetime
 from libs.cache import CacheController, CachedObject
 
 
@@ -27,7 +26,7 @@ class AWSPrices:
     AWS_DEFAULT_TERMS = "OnDemand"
 
     def __init__(self):
-        self.region = os.getenv("AWS_REGIONS") or "eu-west-1"
+        self.region = os.getenv("AWS_REGION") or "eu-west-1"
         self.home_dir = os.getenv("HOME") or "/tmp"
         self.products = []
         self.prices = []

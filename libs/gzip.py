@@ -9,11 +9,6 @@ def gzipped(f):
     def view_func(*args, **kwargs):
         @after_this_request
         def zipper(response):
-            # accept_encoding = request.headers.get('Accept-Encoding', '')
-            #
-            # if 'gzip' not in accept_encoding.lower():
-            #     return response
-
             response.direct_passthrough = False
 
             if (response.status_code < 200 or
