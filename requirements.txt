@@ -1,0 +1,4 @@
+requests
+Flask
+Flask-Cors
+Flask-Restful
