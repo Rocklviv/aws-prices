@@ -11,6 +11,7 @@ cors = CORS(application, origins="*")
 
 # Application related imports
 from controllers.aws_prices import AWSPrices
+from controllers.health import HealthPage
 aws_prices = AWSPrices()
 
 
@@ -22,6 +23,9 @@ def get_prices():
     except ImportError as exc:
         raise exc.msg
 
+@application.route('/health', methods=['GET', 'POST'])
+def health_check():
+    return HealthPage.check()
 
 if __name__ == "AWSPrices":
     application.run(
